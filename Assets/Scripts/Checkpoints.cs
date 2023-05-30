@@ -14,6 +14,8 @@ public class Checkpoints : MonoBehaviour
     public Collider Finish;
     public bool FreezeOnFinish = false;
 
+    public Lava[] lavaRemind; // Rework to Remind func for Reminder Script
+
     public GameObject Player;
     public float DeathY = -5f;
     public float DeathPenalty = 0f;
@@ -117,6 +119,7 @@ public class Checkpoints : MonoBehaviour
         Player.GetComponent<Player>().Speed = 0;
         Player.GetComponent<Rigidbody>().velocity = Vector3.zero;
         time += DeathPenalty;
+        foreach (Lava lava in lavaRemind) lava.Rewind();
     }
 
     public void RespawnMoney()
@@ -152,9 +155,11 @@ public class Checkpoints : MonoBehaviour
                 PlayerPrefs.Save();
                 StartCoroutine(DelayedSlow(2f, 0.1f));
                 if (FreezeOnFinish) Player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                foreach (Lava lava in lavaRemind) lava.enabled = false;
             }
             LapsText.transform.GetComponent<AnimPlayer>().Play("New Lap");
         }
         LastCheckpoint = coll;
+        foreach(Lava lava in lavaRemind) lava.Remind();
     }
 }

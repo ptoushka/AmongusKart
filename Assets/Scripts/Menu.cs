@@ -11,7 +11,7 @@ public class Menu : MonoBehaviour
 
     public void Exit()
     {
-        PlayerPrefs.DeleteAll();
+        // PlayerPrefs.DeleteAll();
         // Application.Quit();
         UnityEditor.EditorApplication.isPlaying = false;
     }
